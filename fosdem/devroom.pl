@@ -54,7 +54,7 @@ sub updatedisplay() {
 		my $rtime;
 		 if($new_conf == -1) {
 			$rtime = $program->[$curr_conf + 1]{'tstamp'} - $time;
-			$rem_time = sprintf('<span font_size="20000" color="blue">' . "ETA %02d:%02d</span>",int($rtime / 60),($rtime % 60));
+			$rem_time = sprintf('<span font_size="20000" color="blue">' . "Start in %02d:%02d</span>",int($rtime / 60),($rtime % 60));
 		} else {
 			my $longtime =  int($program->[$curr_conf]{'endstamp'}) - int($program->[$curr_conf]{'tstamp'});
 			$rtime = $program->[$curr_conf]{'endstamp'} - $time;
