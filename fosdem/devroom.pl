@@ -19,6 +19,14 @@ my $confname;
 my $confspeaker;
 my $conf_text = "";
 my $conf_speaker = "";
+my $font_size_date          = 30000;
+my $font_size_speaker       = 40000;
+my $font_size_conf_text     = 60000;
+
+my $font_size_rem_time      = 100000;
+my $font_size_green_time    = 100000;
+my $font_size_orange_time   = 110000;
+my $font_size_red_time      = 120000;
 
 
 sub updatedisplay() {
@@ -26,7 +34,7 @@ sub updatedisplay() {
 	my $rem_time;
 	my $deco;
 	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
-	my $datestring = strftime '<span font_size="10000" color="black">' . "%d/%m/%Y %H:%M" . '</span>', localtime;
+	my $datestring = strftime '<span font_size="' . $font_size_date . '" color="black">' . "%d/%m/%Y %H:%M" . '</span>', localtime;
 	$ltime->set_markup ($datestring);
 
 	my $new_conf = get_current_conf($program);
@@ -45,22 +53,22 @@ sub updatedisplay() {
                         $conf_text  =  $program->[$curr_conf]{'desc'};
                         $conf_speaker =  $program->[$curr_conf]{'speaker'};
                 }
-		$confname->set_markup('<span font_size="30000" color="black">' . $conf_text . '</span>'); 
-		$confspeaker->set_markup('<span font_size="20000" color="black"> by ' . $conf_speaker . '</span>');
+		$confname->set_markup('<span font_size="' . $font_size_conf_text . '" color="black">' . $conf_text . '</span>'); 
+		$confspeaker->set_markup('<span font_size="' . $font_size_speaker . '" color="black"> by ' . $conf_speaker . '</span>');
 
         }
-	$deco='<span font_size="20000" color="green">';
+	$deco='<span font_size="' . $font_size_green_time . '" color="green">';
 	if ($curr_conf != -1) {
 		my $rtime;
 		 if($new_conf == -1) {
 			$rtime = $program->[$curr_conf + 1]{'tstamp'} - $time;
-			$rem_time = sprintf('<span font_size="20000" color="blue">' . "Start in %02d:%02d</span>",int($rtime / 60),($rtime % 60));
+			$rem_time = sprintf('<span font_size="' . $font_size_rem_time . '" color="blue">' . "Start in %02d:%02d</span>",int($rtime / 60),($rtime % 60));
 		} else {
 			my $longtime =  int($program->[$curr_conf]{'endstamp'}) - int($program->[$curr_conf]{'tstamp'});
 			$rtime = $program->[$curr_conf]{'endstamp'} - $time;
-			$deco ='<span font_size="25000" color="orange">' if($rtime < 900);
-			$deco ='<span font_size="30000" color="red">' if($rtime < 300);
-			$rem_time = sprintf(" ${deco} %02d:%02d </span> " .'<span font_size="20000" color="black">/ %02d:%02d</span>',int($rtime / 60),($rtime % 60),
+			$deco ='<span font_size="' . $font_size_orange_time . '" color="orange">' if($rtime < 900);
+			$deco ='<span font_size="' . $font_size_red_time . '" color="red">' if($rtime < 300);
+			$rem_time = sprintf(" ${deco} %02d:%02d </span> " .'<span font_size="' . $font_size_rem_time . '" color="black">/ %02d:%02d</span>',int($rtime / 60),($rtime % 60),
 			int($longtime/ 60),($longtime% 60));
 		}
 	}
@@ -145,7 +153,7 @@ $table->attach_defaults($remtime,0,2,2,3);
 $table->attach_defaults($ltime,0,1,3,4);
 $table->attach_defaults($logo,1,2,3,4);;
 
-Glib::Timeout->add(400,\&updatedisplay);
+Glib::Timeout->add(200,\&updatedisplay);
 
 $fenetre->add($table);
 $fenetre->show_all;
