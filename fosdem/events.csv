@@ -1,8 +1,12 @@
-4485,Contributing to the Graphics stack on FreeBSD Help us improve our packages and kernel drivers,Jean-Sébastien Pédron,accepted confirmed,2016-01-31,11:10:00,K.4.601,00:45:00
-4464,"Could Haiku ever become a BSD? What BSD gave us, what we could still gain from it.",François Revol,accepted confirmed,2016-01-31,13:05:00,K.4.601,00:35:00
-4527,EdgeBSD: Status report Living on the edge,Pierre Pronchery,accepted confirmed,2016-01-31,09:00:00,K.4.601,01:00:00
-3858,ElectroBSD - Getting a reproducible BSD out of the door ,Fabian Keil,accepted confirmed,2016-01-31,14:35:00,K.4.601,01:00:00
-4451,FreeBSD/Xen update News from FreeBSD and Xen,"Roger Pau Monné, Wei Liu",accepted confirmed,2016-01-31,12:00:00,K.4.601,01:00:00
-4551,Interesting Things You Can Do With ZFS ,Allan Jude,accepted reconfirmed,2016-01-31,10:05:00,K.4.601,01:00:00
-3960,Open/LibreSSL in FreeBSD State of OpenSSL and LibreSSL in ports and base,Bernard Spil,accepted confirmed,2016-01-31,13:45:00,K.4.601,00:45:00
-4489,Reproducible builds in FreeBSD packages ,Baptiste Daroussin,accepted confirmed,2016-01-31,15:40:00,K.4.601,01:00:00
+6327,BSD from scratch - from source to OS with ease on NetBSD ,Sevan Janiyan,accepted confirmed,2018-02-03,11:55:00,K.3.401,00:35:00
+6420,"CBSD, Isolation manager How to manage jails, bhyve VMs and Xen via CBSD, while keeping it all simple",Goran Mekić,accepted confirmed,2018-02-03,13:30:00,K.3.401,00:50:00
+6017,Configuring build base on FreeBSD Making things easy for the user,RoberFern,accepted confirmed,2018-02-03,17:15:00,K.3.401,00:45:00
+6094,lscpu for BSDs My first contribution to BSD community,nanxiao,accepted canceled,2018-02-03,11:05:00,K.3.401,00:45:00
+7162,NetBSD and Mercurial The challenges of a long history,Jörg Sonnenberger,accepted confirmed,2018-02-03,11:05:00,K.3.401,00:45:00
+6255,OpenBSD as house alarm system Openbsd is not only good for network related projects,Vincent Delft,accepted confirmed,2018-02-03,15:35:00,K.3.401,00:45:00
+6159,pkgsrc on ChromeOS ,Benny Siegert,accepted confirmed,2018-02-03,14:25:00,K.3.401,00:30:00
+6620,pot: another container framework based on jails and ZFS A personal/educational project to run containers with the power of FreeBSD,Luca Pizzamiglio,accepted confirmed,2018-02-03,12:35:00,K.3.401,00:50:00
+6717,Reflections on Teaching a Unix Class With FreeBSD Lessons learned on both sides,Benedict Reuschling,accepted confirmed,2018-02-03,18:05:00,K.3.401,00:45:00
+6013,syspatch(8) OpenBSD base system maintenance made easy,Antoine Jacoutot,accepted confirmed,2018-02-03,15:00:00,K.3.401,00:30:00
+6787,The FreeBSD Foundation and How We Are Changing the World ,Deb Goodkin,accepted confirmed,2018-02-03,10:30:00,K.3.401,00:30:00
+6084,"ZFS: Advanced Integration Server, Laptop, Embedded, or Appliance -- ZFS is the Answer",Allan Jude,accepted confirmed,2018-02-03,16:25:00,K.3.401,00:45:00
