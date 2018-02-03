@@ -1,7 +1,6 @@
 6327,BSD from scratch - from source to OS with ease on NetBSD ,Sevan Janiyan,accepted confirmed,2018-02-03,11:55:00,K.3.401,00:35:00
 6420,"CBSD, Isolation manager How to manage jails, bhyve VMs and Xen via CBSD, while keeping it all simple",Goran Mekić,accepted confirmed,2018-02-03,13:30:00,K.3.401,00:50:00
 6017,Configuring build base on FreeBSD Making things easy for the user,RoberFern,accepted confirmed,2018-02-03,17:15:00,K.3.401,00:45:00
-6094,lscpu for BSDs My first contribution to BSD community,nanxiao,accepted canceled,2018-02-03,11:05:00,K.3.401,00:45:00
 7162,NetBSD and Mercurial The challenges of a long history,Jörg Sonnenberger,accepted confirmed,2018-02-03,11:05:00,K.3.401,00:45:00
 6255,OpenBSD as house alarm system Openbsd is not only good for network related projects,Vincent Delft,accepted confirmed,2018-02-03,15:35:00,K.3.401,00:45:00
 6159,pkgsrc on ChromeOS ,Benny Siegert,accepted confirmed,2018-02-03,14:25:00,K.3.401,00:30:00

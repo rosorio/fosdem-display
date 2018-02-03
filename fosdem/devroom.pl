@@ -143,12 +143,13 @@ $ltime = new Gtk2::Label("");
 $logo  = Gtk2::Image->new_from_file("./fosdem2.png");
 $confname = new Gtk2::Label("&&&&&&&");
 $confname->set_line_wrap(true);
+$confname->set_size_request($screen->get_width,400);
+$confname->set_justify('center');
 $remtime = new Gtk2::Label("ETA");
 
 
 $confspeaker = new Gtk2::Label("******");
-$confspeaker->set_justify('left');
-
+$confspeaker->set_justify('center');
 
 $table->attach_defaults($confname,0,2,0,1);
 $table->attach_defaults($confspeaker,0,2,1,2);
