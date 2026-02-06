@@ -1,0 +1,60 @@
+{
+  "date": "2026-02-06",
+  "timezone": "CET",
+  "talks": [
+    {
+      "time": "15:00",
+      "duration": 20,
+      "speaker": "Thibault Payet",
+      "title": "The state of gaming on FreeBSD"
+    },
+    {
+      "time": "15:25",
+      "duration": 20,
+      "speaker": "Paul Floyd",
+      "title": "Valgrind for DragonFly/Net/Open BSD?"
+    },
+    {
+      "time": "15:50",
+      "duration": 25,
+      "speaker": "Emile 'iMil' Heitor, Pierre Pronchery",
+      "title": "smolBSD: boots faster than its shadow!"
+    },
+    {
+      "time": "16:20",
+      "duration": 20,
+      "speaker": "Till Wegmüller",
+      "title": "(Re)Building a next gen system package Manager and Image management tool"
+    },
+    {
+      "time": "16:45",
+      "duration": 25,
+      "speaker": "Evan Wilde, Michael Chiu",
+      "title": "Dancing with Daemons: Porting Swift to FreeBSD"
+    },
+    {
+      "time": "17:15",
+      "duration": 25,
+      "speaker": "Charalampos Mainas, Anastassios Nanos",
+      "title": "Bringing BSD Applications on Linux container platforms with urunc"
+    },
+    {
+      "time": "17:45",
+      "duration": 20,
+      "speaker": "Thomas Munro",
+      "title": "Optimising kernels and file systems for PostgreSQL, a cross-project talk"
+    },
+    {
+      "time": "18:15",
+      "duration": 20,
+      "speaker": "Stefan Sperling, Omar Polo",
+      "title": "Browsing Git repositories with gotwebd"
+    },
+    {
+      "time": "18:40",
+      "duration": 20,
+      "speaker": "Polarian",
+      "title": "Securing your network with OpenBSD"
+    }
+  ]
+}

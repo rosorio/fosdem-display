@@ -1,24 +1,22 @@
 require "gtk3"
 require 'date'
+require 'json'
 require_relative 'schedule_logic'
 
 @builder
 def get_object(name)
     return @builder.get_object(name)
 end
-date="2026-02-06"
-tz="CET"
-text_schedule = [
-    ["15:00",20,"Thibault Payet","The state of gaming on FreeBSD"],
-    ["15:25",20,"Valgrind for DragonFly/Net/Open BSD?","Paul Floyd"],
-    ["15:50",25,"smolBSD: boots faster than its shadow!","Emile 'iMil' Heitor, Pierre Pronchery"],
-    ["16:20",20,"(Re)Building a next gen system package Manager and Image management tool","Till Wegmüller"],
-    ["16:45",25,"Dancing with Daemons: Porting Swift to FreeBSD","Evan Wilde, Michael Chiu"],
-    ["17:15",25,"Bringing BSD Applications on Linux container platforms with urunc","Charalampos Mainas, Anastassios Nanos"],
-    ["17:45",20,"Optimising kernels and file systems for PostgreSQL, a cross-project talk","Thomas Munro"],
-    ["18:15",20,"Browsing Git repositories with gotwebd","Stefan Sperling, Omar Polo"],
-    ["18:40",20,"Securing your network with OpenBSD","Polarian"]
-]
+
+# Load schedule from JSON file
+schedule_file = "#{File.expand_path(File.dirname(__FILE__))}/schedule.json"
+schedule_data = JSON.parse(File.read(schedule_file))
+
+date = schedule_data["date"]
+tz = schedule_data["timezone"]
+text_schedule = schedule_data["talks"].map do |talk|
+    [talk["time"], talk["duration"], talk["speaker"], talk["title"]]
+end
 
 @schedule = ScheduleLogic.parse_schedule(text_schedule, date, tz)
 
