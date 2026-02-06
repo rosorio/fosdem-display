@@ -44,8 +44,8 @@ GLib::Timeout.add(1000) do
     if @current_talk < @schedule.length()
         if (@schedule[@current_talk][0] < now)
             delay = ((@schedule[@current_talk][1]-now) * 24 * 60 * 60).to_i
-        else 
-            delay = ((now - @schedule[@current_talk][0]) * 24 * 60 * 60).to_i
+        else
+            delay = ((@schedule[@current_talk][0] - now) * 24 * 60 * 60).to_i
         end
         get_object("talk_time").set_text(format("%02d:%02d", delay / 60, delay % 60 ))
         get_object("talk_name").set_text(@schedule[@current_talk][2])
