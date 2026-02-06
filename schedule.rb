@@ -1,5 +1,6 @@
 require "gtk3"
 require 'date'
+require_relative 'schedule_logic'
 
 @builder
 def get_object(name)
@@ -19,14 +20,7 @@ text_schedule = [
     ["18:40",20,"Securing your network with OpenBSD","Polarian"]
 ]
 
-@schedule = []
-
-text_schedule.each {|current|
-    start_time = DateTime.strptime("#{date} #{current[0]} CET","%Y-%m-%d %H:%M %Z")
-    end_time = start_time + Rational(current[1],24*60)
-
-    @schedule.push([start_time, end_time, current[2], current[3]])
-}
+@schedule = ScheduleLogic.parse_schedule(text_schedule, date, tz)
 
 builder_file = "#{File.expand_path(File.dirname(__FILE__))}/schedule.ui"
 @builder = Gtk::Builder.new(:file => builder_file)
@@ -37,23 +31,17 @@ screen = Gdk::Screen.default
 @current_talk = 0;
 GLib::Timeout.add(1000) do
     now = DateTime.now;
-    while @current_talk < @schedule.length() && @schedule[@current_talk][0] < now && @schedule[@current_talk][1] < now
-            @current_talk += 1
-    end
+    @current_talk = ScheduleLogic.find_current_talk(@schedule, now, @current_talk)
 
     if @current_talk < @schedule.length()
-        if (@schedule[@current_talk][0] < now)
-            delay = ((@schedule[@current_talk][1]-now) * 24 * 60 * 60).to_i
-        else
-            delay = ((@schedule[@current_talk][0] - now) * 24 * 60 * 60).to_i
-        end
+        delay = ScheduleLogic.calculate_delay(@schedule, @current_talk, now)
         get_object("talk_time").set_text(format("%02d:%02d", delay / 60, delay % 60 ))
         get_object("talk_name").set_text(@schedule[@current_talk][2])
         get_object("talk_speaker").set_text(@schedule[@current_talk][3])
     else
         get_object("talk_time").set_text("The end")
         get_object("talk_name").set_text("That's all floks!")
-        
+
     end
     get_object("current_time").set_text(now.to_s)
 end
