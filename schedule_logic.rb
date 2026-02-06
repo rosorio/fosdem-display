@@ -23,10 +23,12 @@ module ScheduleLogic
 
     if schedule[current_talk][0] < now
       # During the talk: time remaining until end
-      ((schedule[current_talk][1] - now) * 24 * 60 * 60).to_i
+      delay = ((schedule[current_talk][1] - now) * 24 * 60 * 60).to_i
+      { delay: delay, state: :during }
     else
       # Before the talk: time until start
-      ((schedule[current_talk][0] - now) * 24 * 60 * 60).to_i
+      delay = ((schedule[current_talk][0] - now) * 24 * 60 * 60).to_i
+      { delay: delay, state: :before }
     end
   end
 end

@@ -136,12 +136,14 @@ class TestScheduleLogic < Minitest::Test
     puts "TEST: Calculate delay - before talk starts (5 minutes)"
     schedule = ScheduleLogic.parse_schedule(@text_schedule, @date, @tz)
     now = DateTime.strptime("#{@date} 09:55 #{@tz}", "%Y-%m-%d %H:%M %Z")
-    delay = ScheduleLogic.calculate_delay(schedule, 0, now)
+    result = ScheduleLogic.calculate_delay(schedule, 0, now)
     puts "  Current time: #{now.strftime('%H:%M')}"
     puts "  Talk starts: #{schedule[0][0].strftime('%H:%M')}"
-    puts "  Delay: #{delay} seconds (#{delay / 60} minutes)"
+    puts "  State: #{result[:state]}"
+    puts "  Delay: #{result[:delay]} seconds (#{result[:delay] / 60} minutes)"
     puts "  ✓ PASS: Correctly calculated 300 seconds (5 minutes) until start"
-    assert_equal 300, delay
+    assert_equal 300, result[:delay]
+    assert_equal :before, result[:state]
   end
 
   def test_calculate_delay_during_talk
@@ -149,13 +151,15 @@ class TestScheduleLogic < Minitest::Test
     puts "TEST: Calculate delay - during talk (10 minutes in)"
     schedule = ScheduleLogic.parse_schedule(@text_schedule, @date, @tz)
     now = DateTime.strptime("#{@date} 10:10 #{@tz}", "%Y-%m-%d %H:%M %Z")
-    delay = ScheduleLogic.calculate_delay(schedule, 0, now)
+    result = ScheduleLogic.calculate_delay(schedule, 0, now)
     puts "  Current time: #{now.strftime('%H:%M')}"
     puts "  Talk started: #{schedule[0][0].strftime('%H:%M')}"
     puts "  Talk ends: #{schedule[0][1].strftime('%H:%M')}"
-    puts "  Delay: #{delay} seconds (#{delay / 60} minutes remaining)"
+    puts "  State: #{result[:state]}"
+    puts "  Delay: #{result[:delay]} seconds (#{result[:delay] / 60} minutes remaining)"
     puts "  ✓ PASS: Correctly calculated 600 seconds (10 minutes) remaining"
-    assert_equal 600, delay
+    assert_equal 600, result[:delay]
+    assert_equal :during, result[:state]
   end
 
   def test_calculate_delay_one_second_before_talk
@@ -163,12 +167,14 @@ class TestScheduleLogic < Minitest::Test
     puts "TEST: Calculate delay - 1 second before talk"
     schedule = ScheduleLogic.parse_schedule(@text_schedule, @date, @tz)
     now = DateTime.strptime("#{@date} 09:59:59 #{@tz}", "%Y-%m-%d %H:%M:%S %Z")
-    delay = ScheduleLogic.calculate_delay(schedule, 0, now)
+    result = ScheduleLogic.calculate_delay(schedule, 0, now)
     puts "  Current time: #{now.strftime('%H:%M:%S')}"
     puts "  Talk starts: #{schedule[0][0].strftime('%H:%M:%S')}"
-    puts "  Delay: #{delay} second(s)"
+    puts "  State: #{result[:state]}"
+    puts "  Delay: #{result[:delay]} second(s)"
     puts "  ✓ PASS: Correctly calculated 1 second until start"
-    assert_equal 1, delay
+    assert_equal 1, result[:delay]
+    assert_equal :before, result[:state]
   end
 
   def test_calculate_delay_one_second_remaining
@@ -176,12 +182,14 @@ class TestScheduleLogic < Minitest::Test
     puts "TEST: Calculate delay - 1 second remaining in talk"
     schedule = ScheduleLogic.parse_schedule(@text_schedule, @date, @tz)
     now = DateTime.strptime("#{@date} 10:19:59 #{@tz}", "%Y-%m-%d %H:%M:%S %Z")
-    delay = ScheduleLogic.calculate_delay(schedule, 0, now)
+    result = ScheduleLogic.calculate_delay(schedule, 0, now)
     puts "  Current time: #{now.strftime('%H:%M:%S')}"
     puts "  Talk ends: #{schedule[0][1].strftime('%H:%M:%S')}"
-    puts "  Delay: #{delay} second(s) remaining"
+    puts "  State: #{result[:state]}"
+    puts "  Delay: #{result[:delay]} second(s) remaining"
     puts "  ✓ PASS: Correctly calculated 1 second remaining"
-    assert_equal 1, delay
+    assert_equal 1, result[:delay]
+    assert_equal :during, result[:state]
   end
 
   def test_calculate_delay_returns_nil_when_past_all_talks
@@ -202,13 +210,15 @@ class TestScheduleLogic < Minitest::Test
     puts "TEST: Calculate delay - exactly at start time"
     schedule = ScheduleLogic.parse_schedule(@text_schedule, @date, @tz)
     now = DateTime.strptime("#{@date} 10:00 #{@tz}", "%Y-%m-%d %H:%M %Z")
-    delay = ScheduleLogic.calculate_delay(schedule, 0, now)
+    result = ScheduleLogic.calculate_delay(schedule, 0, now)
     puts "  Current time: #{now.strftime('%H:%M')}"
     puts "  Talk starts: #{schedule[0][0].strftime('%H:%M')}"
-    puts "  Delay: #{delay} seconds"
+    puts "  State: #{result[:state]}"
+    puts "  Delay: #{result[:delay]} seconds"
     puts "  Note: At exact start time, treated as 'before' (countdown shows 0)"
     puts "  ✓ PASS: Returns 0 at exact start time"
-    assert_equal 0, delay
+    assert_equal 0, result[:delay]
+    assert_equal :before, result[:state]
   end
 
   # Integration test
@@ -220,22 +230,26 @@ class TestScheduleLogic < Minitest::Test
     puts "\n  Scenario 1: Before any talks (09:00)"
     now = DateTime.strptime("#{@date} 09:00 #{@tz}", "%Y-%m-%d %H:%M %Z")
     current = ScheduleLogic.find_current_talk(schedule, now, 0)
-    delay = ScheduleLogic.calculate_delay(schedule, current, now)
+    result = ScheduleLogic.calculate_delay(schedule, current, now)
     puts "    Current time: #{now.strftime('%H:%M')}"
     puts "    Current talk index: #{current}"
-    puts "    Delay: #{delay} seconds (#{delay / 60} minutes until start)"
+    puts "    State: #{result[:state]}"
+    puts "    Delay: #{result[:delay]} seconds (#{result[:delay] / 60} minutes until start)"
     assert_equal 0, current
-    assert_equal 3600, delay
+    assert_equal 3600, result[:delay]
+    assert_equal :before, result[:state]
 
     puts "\n  Scenario 2: During first talk (10:05)"
     now = DateTime.strptime("#{@date} 10:05 #{@tz}", "%Y-%m-%d %H:%M %Z")
     current = ScheduleLogic.find_current_talk(schedule, now, current)
-    delay = ScheduleLogic.calculate_delay(schedule, current, now)
+    result = ScheduleLogic.calculate_delay(schedule, current, now)
     puts "    Current time: #{now.strftime('%H:%M')}"
     puts "    Current talk index: #{current}"
-    puts "    Delay: #{delay} seconds (#{delay / 60} minutes remaining)"
+    puts "    State: #{result[:state]}"
+    puts "    Delay: #{result[:delay]} seconds (#{result[:delay] / 60} minutes remaining)"
     puts "  ✓ PASS: Full workflow behaves correctly"
     assert_equal 0, current
-    assert_equal 900, delay
+    assert_equal 900, result[:delay]
+    assert_equal :during, result[:state]
   end
 end

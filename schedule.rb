@@ -6,7 +6,7 @@ require_relative 'schedule_logic'
 def get_object(name)
     return @builder.get_object(name)
 end
-date="2026-01-31"
+date="2026-02-06"
 tz="CET"
 text_schedule = [
     ["15:00",20,"Thibault Payet","The state of gaming on FreeBSD"],
@@ -34,8 +34,13 @@ GLib::Timeout.add(1000) do
     @current_talk = ScheduleLogic.find_current_talk(@schedule, now, @current_talk)
 
     if @current_talk < @schedule.length()
-        delay = ScheduleLogic.calculate_delay(@schedule, @current_talk, now)
-        get_object("talk_time").set_text(format("%02d:%02d", delay / 60, delay % 60 ))
+        result = ScheduleLogic.calculate_delay(@schedule, @current_talk, now)
+        if result[:state] == :before
+            prefix = "In "
+        else
+            prefix = "Left "
+        end
+        get_object("talk_time").set_text(format("%s%02d:%02d", prefix, result[:delay] / 60, result[:delay] % 60 ))
         get_object("talk_name").set_text(@schedule[@current_talk][2])
         get_object("talk_speaker").set_text(@schedule[@current_talk][3])
     else
