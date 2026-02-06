@@ -25,6 +25,7 @@ text_schedule = [
 builder_file = "#{File.expand_path(File.dirname(__FILE__))}/schedule.ui"
 @builder = Gtk::Builder.new(:file => builder_file)
 window = get_object("window")
+window.signal_connect("destroy") { Gtk.main_quit }
 screen = Gdk::Screen.default
 
 
